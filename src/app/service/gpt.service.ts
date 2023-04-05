@@ -2,47 +2,15 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, from, map, Observable, of, switchMap, tap, timer } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { chrome } from '../type/chrome.d';
+import { CompletionsResponse, GptPostData, GptStatus } from '../type/gpt';
 import { ApiService } from './api.service';
-
-export interface GptPostData {
-  model: string;
-  messages: {
-    role: 'system' | 'assistant' | 'user';
-    content: string;
-  }[];
-}
-
-interface CompletionsResponse {
-  id: string;
-  object: 'chat.completion';
-  created: number;
-  model: string;
-  usage: {
-    prompt_tokens: number;
-    completion_tokens: number;
-    total_tokens: number;
-  };
-  choices: [
-    {
-      message: {
-        role: 'assistant';
-        content: string;
-      };
-      finish_reason: 'stop';
-      index: number;
-    }
-  ];
-}
-
-declare const chrome: any;
-
-type Status = 'API_KEY_NEED' | 'READY' | 'LOADING'
 
 @Injectable({
   providedIn: 'root',
 })
 export class GptService {
-  status$ = new BehaviorSubject<Status>('LOADING')
+  status$ = new BehaviorSubject<GptStatus>('LOADING')
 
   constructor(private api: ApiService) {
     this.checkStatus()

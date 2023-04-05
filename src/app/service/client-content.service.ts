@@ -2,8 +2,7 @@ import { Injectable, NgZone } from '@angular/core';
 import { Observable, of, Subject } from 'rxjs';
 import { ArticleData, extractFromHtml } from '@extractus/article-extractor'
 import { environment } from 'src/environments/environment';
-
-declare const chrome: any;
+import { chrome } from '../type/chrome.d';
 
 /** クライアントページに表示されているコンテンツを取得するサービス */
 @Injectable({

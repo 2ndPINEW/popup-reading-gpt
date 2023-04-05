@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ClientContentService } from 'src/app/service/client-content.service';
-import { GptPostData, GptService } from 'src/app/service/gpt.service';
+import { GptService } from 'src/app/service/gpt.service';
+import { GptPostData } from 'src/app/type/gpt';
 
 /**
  * 開いている記事についてチャットするためのコンポーネント
