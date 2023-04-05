@@ -12,9 +12,10 @@ import {
   timer,
 } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { chrome } from '../type/chrome.d';
 import { CompletionsResponse, GptPostData, GptStatus } from '../type/gpt';
 import { ApiService } from './api.service';
+
+export declare const chrome: any;
 
 @Injectable({
   providedIn: 'root',
