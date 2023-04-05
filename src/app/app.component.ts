@@ -7,9 +7,7 @@ import { GptService } from './service/gpt.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  status$ = this.gptService.status$
+  status$ = this.gptService.status$;
 
-  constructor (
-    private gptService: GptService,
-  ) {}
+  constructor(private gptService: GptService) {}
 }
