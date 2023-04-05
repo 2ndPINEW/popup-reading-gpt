@@ -1,4 +1,3 @@
-// AngularでGPTのAPIを叩くサービス
 import { Injectable } from '@angular/core';
 import {
   BehaviorSubject,
@@ -17,6 +16,7 @@ import { ApiService } from './api.service';
 
 export declare const chrome: any;
 
+/** GPTのAPIを叩くためのサービス */
 @Injectable({
   providedIn: 'root',
 })
@@ -27,7 +27,7 @@ export class GptService {
     this.checkStatus();
   }
 
-  checkStatus(): void {
+  private checkStatus(): void {
     this.getLocalApiKey().subscribe((apiKey) => {
       if (apiKey) {
         this.status$.next('READY');
@@ -37,7 +37,7 @@ export class GptService {
     });
   }
 
-  getLocalApiKey(): Observable<string> {
+  private getLocalApiKey(): Observable<string> {
     if (!environment.production) {
       return of('');
     }
@@ -46,7 +46,7 @@ export class GptService {
     );
   }
 
-  setLocalApiKey(value: string) {
+  private setLocalApiKey(value: string) {
     if (!environment.production) {
       return of(undefined).pipe(tap(() => this.status$.next('READY')));
     }
@@ -55,7 +55,7 @@ export class GptService {
     );
   }
 
-  removeLocalApiKey() {
+  private removeLocalApiKey() {
     if (!environment.production) {
       return of(undefined).pipe(tap(() => this.status$.next('API_KEY_NEED')));
     }
