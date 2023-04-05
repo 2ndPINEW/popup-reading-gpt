@@ -1,7 +1,2 @@
-<div class="chat-area">
-  <div *ngFor="let chat of chatHistory" [class.assistant]="chat.role === 'assistant'" [class.user]="chat.role === 'user'" [class.error]="chat.role === 'error'">
-    {{ chat.content }}
-  </div>
-  <div *ngIf="isFetching" class="loading">Loading</div>
-</div>
-<textarea id="chat" type="text" [formControl]="chatInput" (keydown)="keyDown($event)" (keyup)="keyUp($event)"></textarea>
+<app-chat *ngIf="(status$ | async) === 'READY'"></app-chat>
+<app-config *ngIf="(status$ | async) === 'API_KEY_NEED'"></app-config>

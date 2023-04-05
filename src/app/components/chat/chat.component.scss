@@ -1,0 +1,31 @@
+:host {
+  display: block;
+  background-color: #434654;
+}
+
+.chat-area {
+  overflow: scroll;
+  height: 520px;
+}
+
+.assistant {
+  padding: 8px 16px;
+  color: #ffffff;
+}
+
+.user {
+  padding: 8px 16px;
+  background-color: #343541;
+  color: #ffffff;
+}
+
+.loading {
+  padding: 8px 16px;
+  color: #ffffff;
+}
+
+.error {
+  padding: 8px 16px;
+  color: #ffffff;
+  background-color: #cc3434;
+}
