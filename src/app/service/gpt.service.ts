@@ -60,7 +60,7 @@ export class GptService {
 
   getLocalApiKey(): Observable<string> {
     if (!environment.production) {
-      return of('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')
+      return of('')
     }
     return from(chrome.storage.local.get("api-key")).pipe(
       map((result: any) => result['api-key'])
