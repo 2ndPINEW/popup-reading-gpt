@@ -1,1 +1,1 @@
-export declare const chrome: any
+export declare const chrome: any;

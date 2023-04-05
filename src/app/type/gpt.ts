@@ -28,4 +28,4 @@ export interface CompletionsResponse {
   ];
 }
 
-export type GptStatus = 'API_KEY_NEED' | 'READY' | 'LOADING'
+export type GptStatus = 'API_KEY_NEED' | 'READY' | 'LOADING';

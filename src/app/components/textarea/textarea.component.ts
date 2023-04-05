@@ -26,7 +26,7 @@ export class TextareaComponent {
       (this.pressKeys.includes('Control') || this.pressKeys.includes('Meta'))
     ) {
       if (this.chatInput.value) {
-        this.submitText.emit(this.chatInput.value)
+        this.submitText.emit(this.chatInput.value);
         this.chatInput.setValue('');
       }
     }

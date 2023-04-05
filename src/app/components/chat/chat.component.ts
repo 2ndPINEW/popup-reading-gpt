@@ -9,7 +9,7 @@ import { GptPostData } from 'src/app/type/gpt';
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.scss']
+  styleUrls: ['./chat.component.scss'],
 })
 export class ChatComponent {
   /** チャットの履歴 */
@@ -35,29 +35,32 @@ export class ChatComponent {
   ) {}
 
   ngOnInit() {
-    this.clientContentService.getArticle$().subscribe((article) => {
-      if (article && article.content) {
-        this.data.messages.push({
-          role: 'system',
-          content: article.content,
+    this.clientContentService.getArticle$().subscribe(
+      (article) => {
+        if (article && article.content) {
+          this.data.messages.push({
+            role: 'system',
+            content: article.content,
+          });
+          this.fetchCompletions(this.data);
+        }
+      },
+      (error) => {
+        console.log(error);
+        this.chatHistory.push({
+          role: 'error',
+          content: 'Error occurred. Cannot read article.',
         });
-        this.fetchCompletions(this.data);
+        this.isFetching = false;
       }
-    }, (error) => {
-      console.log(error);
-      this.chatHistory.push({
-        role: 'error',
-        content: 'Error occurred. Cannot read article.',
-      });
-      this.isFetching = false;
-    });
+    );
   }
 
   sendChant(content: string) {
     if (this.isFetching) return;
     const message = {
       role: 'user',
-      content
+      content,
     } as GptPostData['messages'][0];
     this.data.messages.push(message);
     this.chatHistory.push(message);
@@ -70,8 +73,13 @@ export class ChatComponent {
     this.gpt.completions(data).subscribe(
       (content) => {
         this.data.messages.push(content.choices[0].message);
-        const copyMessage = JSON.parse(JSON.stringify(content.choices[0].message)) as GptPostData['messages'][0]
-        copyMessage.content = copyMessage.content.replaceAll('\n', '<br>').replaceAll('```', '').replaceAll('。', '。<br>')
+        const copyMessage = JSON.parse(
+          JSON.stringify(content.choices[0].message)
+        ) as GptPostData['messages'][0];
+        copyMessage.content = copyMessage.content
+          .replaceAll('\n', '<br>')
+          .replaceAll('```', '')
+          .replaceAll('。', '。<br>');
         this.chatHistory.push(copyMessage);
         this.isFetching = false;
       },
