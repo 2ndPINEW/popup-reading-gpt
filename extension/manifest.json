@@ -1,0 +1,21 @@
+{
+  "name": "PopupGPT",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "description": "ポップアップGPT",
+  "permissions": [
+    "tabs",
+    "unlimitedStorage",
+    "storage",
+    "scripting"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "action": {
+    "default_icon": {
+      "512": "icon.png"
+    },
+    "default_popup": "popup/index.html"
+  }
+}
