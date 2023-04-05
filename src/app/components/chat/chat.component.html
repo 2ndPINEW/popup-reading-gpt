@@ -1,6 +1,10 @@
 <div class="chat-area">
-  <div *ngFor="let chat of chatHistory" [class.assistant]="chat.role === 'assistant'" [class.user]="chat.role === 'user'" [class.error]="chat.role === 'error'">
-    {{ chat.content }}
+  <div
+    *ngFor="let chat of chatHistory"
+    [class.assistant]="chat.role === 'assistant'"
+    [class.user]="chat.role === 'user'"
+    [class.error]="chat.role === 'error'"
+    [innerHTML]="chat.content">
   </div>
   <div *ngIf="isFetching" class="loading">Loading</div>
 </div>

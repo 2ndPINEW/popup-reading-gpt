@@ -69,7 +69,9 @@ export class ChatComponent {
     this.gpt.completions(data).subscribe(
       (content) => {
         this.data.messages.push(content.choices[0].message);
-        this.chatHistory.push(content.choices[0].message);
+        const copyMessage = JSON.parse(JSON.stringify(content.choices[0].message)) as GptPostData['messages'][0]
+        copyMessage.content = copyMessage.content.replaceAll('\n', '<br>').replaceAll('```', '').replaceAll('。', '。<br>')
+        this.chatHistory.push(copyMessage);
         this.isFetching = false;
       },
       (error) => {
