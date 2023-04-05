@@ -69,7 +69,9 @@ export class GptService {
 
   setLocalApiKey(value: string) {
     if (!environment.production) {
-      return of(undefined)
+      return of(undefined).pipe(
+        tap(() => this.status$.next('READY'))
+      )
     }
     return from(chrome.storage.local.set({ 'api-key': value })).pipe(
       tap(() => this.status$.next('READY'))
@@ -78,7 +80,9 @@ export class GptService {
 
   removeLocalApiKey() {
     if (!environment.production) {
-      return of(undefined)
+      return of(undefined).pipe(
+        tap(() => this.status$.next('API_KEY_NEED'))
+      )
     }
     return from(chrome.storage.local.remove('api-key')).pipe(
       tap(() => this.status$.next('API_KEY_NEED'))
