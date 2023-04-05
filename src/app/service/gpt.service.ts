@@ -46,7 +46,7 @@ export class GptService {
     );
   }
 
-  private setLocalApiKey(value: string) {
+  setLocalApiKey(value: string) {
     if (!environment.production) {
       return of(undefined).pipe(tap(() => this.status$.next('READY')));
     }
