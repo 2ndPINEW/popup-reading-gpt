@@ -107,7 +107,7 @@ export class GptService {
             {
               message: {
                 role: 'assistant',
-                content: 'this is assistant message',
+                content: 'this is assistant message\n```typescript\nfunction hoge() {\n  console.log("hoge")\n}\n```',
               },
               finish_reason: 'stop',
               index: 0,
@@ -120,7 +120,7 @@ export class GptService {
       switchMap((apiKey) => {
         return this.api.post<CompletionsResponse>('v1/chat/completions', JSON.stringify(data), apiKey).pipe(
           catchError((error) => {
-            if (error.error.status === 401) {
+            if (error.status === 401) {
               this.removeLocalApiKey()
             }
             throw error
