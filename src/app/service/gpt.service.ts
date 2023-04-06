@@ -11,10 +11,12 @@ import {
   timer,
 } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { CompletionsResponse, GptPostData, GptStatus } from '../type/gpt';
+import { CompletionsResponse, GptMessage, GptStatus } from '../type/gpt';
 import { ApiService } from './api.service';
 
 export declare const chrome: any;
+
+const gptModel = 'gpt-3.5-turbo';
 
 /** GPTのAPIを叩くためのサービス */
 @Injectable({
@@ -64,7 +66,7 @@ export class GptService {
     );
   }
 
-  completions(data: GptPostData): Observable<CompletionsResponse> {
+  completions(messages: GptMessage[]): Observable<CompletionsResponse> {
     // 開発中にAPI叩かれると嫌なので、適当なダミーデータを返す
     if (!environment.production) {
       return timer(1000).pipe(
@@ -100,7 +102,10 @@ export class GptService {
         return this.api
           .post<CompletionsResponse>(
             'v1/chat/completions',
-            JSON.stringify(data),
+            JSON.stringify({
+              model: gptModel,
+              messages,
+            }),
             apiKey
           )
           .pipe(

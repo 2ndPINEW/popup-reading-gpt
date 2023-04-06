@@ -1,9 +1,11 @@
 export interface GptPostData {
   model: string;
-  messages: {
-    role: 'system' | 'assistant' | 'user';
-    content: string;
-  }[];
+  messages: GptMessage[];
+}
+
+export interface GptMessage {
+  role: 'system' | 'assistant' | 'user';
+  content: string;
 }
 
 export interface CompletionsResponse {
@@ -18,10 +20,7 @@ export interface CompletionsResponse {
   };
   choices: [
     {
-      message: {
-        role: 'assistant';
-        content: string;
-      };
+      message: GptMessage;
       finish_reason: 'stop';
       index: number;
     }

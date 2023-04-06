@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ClientContentService } from 'src/app/service/client-content.service';
 import { GptService } from 'src/app/service/gpt.service';
-import { GptPostData } from 'src/app/type/gpt';
+import { GptMessage, GptPostData } from 'src/app/type/gpt';
 
 /**
  * 開いている記事についてチャットするためのコンポーネント
@@ -16,10 +16,7 @@ export class ChatComponent {
   chatHistory: { role: string; content: string }[] = [];
 
   /** APIにポストするデータ */
-  private data: GptPostData = {
-    model: 'gpt-3.5-turbo',
-    messages: [],
-  };
+  private messages: GptMessage[] = [];
 
   isFetching = false;
 
@@ -32,7 +29,7 @@ export class ChatComponent {
     this.clientContentService.getArticle$().subscribe(
       (article) => {
         if (article && article.content) {
-          this.data.messages = [
+          this.messages = [
             {
               role: 'system',
               content:
@@ -43,7 +40,7 @@ export class ChatComponent {
               content: article.content,
             },
           ];
-          this.fetchCompletions(this.data);
+          this.fetchCompletions();
         }
       },
       (error) => {
@@ -63,17 +60,17 @@ export class ChatComponent {
       role: 'user',
       content,
     } as GptPostData['messages'][0];
-    this.data.messages.push(message);
+    this.messages.push(message);
     this.chatHistory.push(message);
 
-    this.fetchCompletions(this.data);
+    this.fetchCompletions();
   }
 
-  private fetchCompletions(data: GptPostData) {
+  private fetchCompletions() {
     this.isFetching = true;
-    this.gpt.completions(data).subscribe(
+    this.gpt.completions(this.messages).subscribe(
       (content) => {
-        this.data.messages.push(content.choices[0].message);
+        this.messages.push(content.choices[0].message);
         const copyMessage = JSON.parse(
           JSON.stringify(content.choices[0].message)
         ) as GptPostData['messages'][0];
