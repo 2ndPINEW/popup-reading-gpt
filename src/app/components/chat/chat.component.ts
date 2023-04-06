@@ -29,17 +29,7 @@ export class ChatComponent {
     this.clientContentService.getArticle$().subscribe(
       (article) => {
         if (article && article.content) {
-          this.messages = [
-            {
-              role: 'system',
-              content:
-                'あなたは優秀なアシスタントです、以下の文章の内容をよく読んで、要点を要約してください。また日本語で回答してください。ユーザーからの質問に回答する際は、文章内にある情報が有用な場合、文章内の情報を優先して利用してください',
-            },
-            {
-              role: 'system',
-              content: article.content,
-            },
-          ];
+          this.initMessages(article.content);
           this.fetchCompletions();
         }
       },
@@ -49,12 +39,25 @@ export class ChatComponent {
           role: 'error',
           content: 'Error occurred. Cannot read article.',
         });
-        this.isFetching = false;
       }
     );
   }
 
-  sendChant(content: string) {
+  private initMessages(articleContent: string) {
+    this.messages = [
+      {
+        role: 'system',
+        content:
+          'あなたは優秀なアシスタントです、以下の文章の内容をよく読んで、要点を要約してください。また日本語で回答してください。ユーザーからの質問に回答する際は、文章内にある情報が有用な場合、文章内の情報を優先して利用してください',
+      },
+      {
+        role: 'system',
+        content: articleContent,
+      },
+    ];
+  }
+
+  submitChat(content: string) {
     if (this.isFetching) return;
     const message = {
       role: 'user',
