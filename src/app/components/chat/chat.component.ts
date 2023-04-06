@@ -58,9 +58,7 @@ export class ChatComponent {
   }
 
   private addChatHistory(message: GptPostData['messages'][0]) {
-    const copyMessage = JSON.parse(
-      JSON.stringify(message)
-    ) as GptPostData['messages'][0];
+    const copyMessage = { ...message };
     copyMessage.content = copyMessage.content
       .replaceAll('\n', '<br>')
       .replaceAll('```', '')
