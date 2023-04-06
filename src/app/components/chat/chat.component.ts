@@ -12,7 +12,7 @@ import { GptMessage, GptPostData } from 'src/app/type/gpt';
   styleUrls: ['./chat.component.scss'],
 })
 export class ChatComponent {
-  /** チャットの履歴 */
+  /** 画面に表示するチャットの履歴、人が読みやすいように加工したデータが入る */
   chatHistory: { role: string; content: string }[] = [];
 
   /** APIにポストするデータ */
@@ -57,6 +57,18 @@ export class ChatComponent {
     ];
   }
 
+  private addChatHistory(message: GptPostData['messages'][0]) {
+    const copyMessage = JSON.parse(
+      JSON.stringify(message)
+    ) as GptPostData['messages'][0];
+    copyMessage.content = copyMessage.content
+      .replaceAll('\n', '<br>')
+      .replaceAll('```', '')
+      .replaceAll('。', '。<br>');
+    this.chatHistory.push(message);
+  }
+
+  /** ユーザーが入力したメッセージを送信する */
   submitChat(content: string) {
     if (this.isFetching) return;
     const message = {
@@ -64,7 +76,7 @@ export class ChatComponent {
       content,
     } as GptPostData['messages'][0];
     this.messages.push(message);
-    this.chatHistory.push(message);
+    this.addChatHistory(message);
 
     this.fetchCompletions();
   }
@@ -74,14 +86,7 @@ export class ChatComponent {
     this.gpt.completions(this.messages).subscribe(
       (content) => {
         this.messages.push(content.choices[0].message);
-        const copyMessage = JSON.parse(
-          JSON.stringify(content.choices[0].message)
-        ) as GptPostData['messages'][0];
-        copyMessage.content = copyMessage.content
-          .replaceAll('\n', '<br>')
-          .replaceAll('```', '')
-          .replaceAll('。', '。<br>');
-        this.chatHistory.push(copyMessage);
+        this.addChatHistory(content.choices[0].message);
         this.isFetching = false;
       },
       (error) => {
