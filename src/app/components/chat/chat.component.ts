@@ -65,7 +65,7 @@ export class ChatComponent {
       .replaceAll('\n', '<br>')
       .replaceAll('```', '')
       .replaceAll('。', '。<br>');
-    this.chatHistory.push(message);
+    this.chatHistory.push(copyMessage);
   }
 
   /** ユーザーが入力したメッセージを送信する */
