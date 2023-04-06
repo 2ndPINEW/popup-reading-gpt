@@ -22,8 +22,7 @@ export class ClientContentService {
         active: true,
         currentWindow: true,
       });
-      const tabId = tabs[0].id;
-      const url = tabs[0].url;
+      const { tabId, url } = tabs[0];
 
       const injectionResults = await chrome.scripting.executeScript({
         target: { tabId: tabId },
