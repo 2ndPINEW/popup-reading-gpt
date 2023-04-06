@@ -42,8 +42,7 @@ export class ClientContentService {
         target: { tabId },
         func: () => {
           {
-            const html = document.querySelector('html')?.outerHTML;
-            return html;
+            return document.querySelector('html')?.outerHTML;
           }
         },
       })
